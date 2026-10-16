@@ -9,6 +9,7 @@ namespace PerfMonitor.Recording
     public sealed class SessionSummary
     {
         int _frames;
+        int _overBudgetFrames;
         float _startTime;
         float _minFps;
         float _worstFrameMs;
@@ -24,6 +25,7 @@ namespace PerfMonitor.Recording
         public void Reset()
         {
             _frames = 0;
+            _overBudgetFrames = 0;
             _startTime = Time.unscaledTime;
             _minFps = float.MaxValue;
             _worstFrameMs = 0f;
@@ -40,6 +42,10 @@ namespace PerfMonitor.Recording
         public void Add(in PerfSample sample)
         {
             _frames++;
+            if (FrameBudget.IsOverBudget(sample.FrameMs, sample.BudgetMs))
+            {
+                _overBudgetFrames++;
+            }
             _sumFps += sample.Fps;
             _sumAppMemoryMB += sample.AppMemoryMB;
             _gcBytes += sample.GcAllocBytes;
@@ -72,6 +78,7 @@ namespace PerfMonitor.Recording
             }
 
             text.AppendLine($"FPS avg {(_sumFps / _frames).ToString("F1", culture)}, min {_minFps.ToString("F1", culture)}, worst frame {_worstFrameMs.ToString("F1", culture)} ms");
+            text.AppendLine($"Frames over budget: {(100f * _overBudgetFrames / _frames).ToString("F1", culture)}% (target {FrameBudget.TargetFps:0} FPS)");
             text.AppendLine($"CPU process avg {_cpu.Text()} | main thread avg {_mainThread.Text()} | GPU avg {_gpu.Text()}");
             text.AppendLine($"App memory avg {(_sumAppMemoryMB / _frames).ToString("F0", culture)} MB, peak {_peakAppMemoryMB.ToString("F0", culture)} MB | managed peak {_peakManagedMB.ToString("F0", culture)} MB");
             text.AppendLine($"GC allocated total {(_gcBytes / 1024f).ToString("F0", culture)} KB");

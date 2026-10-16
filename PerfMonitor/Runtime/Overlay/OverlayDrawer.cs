@@ -16,6 +16,7 @@ namespace PerfMonitor.Overlay
         GUIStyle _rightLabelStyle;
         GUIStyle _bigStyle;
         GUIStyle _buttonStyle;
+        GUIStyle _verdictStyle;
 
         public OverlayDrawer()
         {
@@ -53,6 +54,13 @@ namespace PerfMonitor.Overlay
         public void BigLabel(Rect rect, string text)
         {
             GUI.Label(rect, text, _bigStyle);
+        }
+
+        // Colored one line verdict such as "GPU bound"
+        public void DrawVerdict(Rect rect, BudgetReport report)
+        {
+            _verdictStyle.normal.textColor = report.IsHealthy ? Good : Bad;
+            GUI.Label(rect, report.Text, _verdictStyle);
         }
 
         public void FillRect(Rect rect, Color color)
@@ -134,6 +142,7 @@ namespace PerfMonitor.Overlay
             _rightLabelStyle = new GUIStyle(_labelStyle) { alignment = TextAnchor.UpperRight };
             _bigStyle = new GUIStyle(_labelStyle) { fontSize = 22, fontStyle = FontStyle.Bold };
             _buttonStyle = new GUIStyle(GUI.skin.button) { fontSize = 11 };
+            _verdictStyle = new GUIStyle(_labelStyle) { fontSize = 12, fontStyle = FontStyle.Bold };
         }
     }
 }

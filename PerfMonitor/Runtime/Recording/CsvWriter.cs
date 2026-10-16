@@ -11,7 +11,8 @@ namespace PerfMonitor.Recording
     {
         const string Header = "time,fps,frame_ms,cpu_process_pct,main_thread_pct,render_thread_pct,gpu_pct," +
                               "app_mem_mb,app_mem_pct,managed_mb,managed_heap_pct,gfx_mem_mb,gfx_mem_pct," +
-                              "gc_alloc_bytes,draw_calls,setpass_calls,triangles,vertices";
+                              "gc_alloc_bytes,draw_calls,setpass_calls,triangles,vertices," +
+                              "main_thread_ms,render_thread_ms,gpu_ms,budget_ms";
 
         readonly StreamWriter _writer;
         readonly StringBuilder _line = new StringBuilder(256);
@@ -42,13 +43,21 @@ namespace PerfMonitor.Recording
             Append(s.DrawCalls);
             Append(s.SetPassCalls);
             Append(s.Triangles);
-            Append(s.Vertices, false);
+            Append(s.Vertices);
+            Append(s.MainThreadMs, "F2");
+            Append(s.RenderThreadMs, "F2");
+            Append(s.GpuMs, "F2");
+            Append(s.BudgetMs, "F2", false);
             _writer.WriteLine(_line.ToString());
         }
 
-        void Append(float value, string format)
+        void Append(float value, string format, bool comma = true)
         {
-            _line.Append(value.ToString(format, CultureInfo.InvariantCulture)).Append(',');
+            _line.Append(value.ToString(format, CultureInfo.InvariantCulture));
+            if (comma)
+            {
+                _line.Append(',');
+            }
         }
 
         void Append(long value, bool comma = true)

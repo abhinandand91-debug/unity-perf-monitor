@@ -12,6 +12,14 @@ namespace PerfMonitor.Core
         public float FrameMs;
         public float Fps;
 
+        // Time budget for this frame, from the target FPS
+        public float BudgetMs;
+
+        // Busy time in milliseconds, NotAvailable when unsupported
+        public float MainThreadMs;
+        public float RenderThreadMs;
+        public float GpuMs;
+
         // Percent values, NotAvailable when unsupported
         public float ProcessCpuPct;
         public float MainThreadPct;
@@ -33,13 +41,17 @@ namespace PerfMonitor.Core
         public long Triangles;
         public long Vertices;
 
-        // Makes a sample with the timing filled in and every percent marked unavailable
+        // Makes a sample with the timing filled in and every optional metric marked unavailable
         public static PerfSample Create()
         {
             var sample = new PerfSample
             {
                 Time = UnityEngine.Time.unscaledTime,
                 FrameMs = UnityEngine.Time.unscaledDeltaTime * 1000f,
+                BudgetMs = FrameBudget.Ms,
+                MainThreadMs = NotAvailable,
+                RenderThreadMs = NotAvailable,
+                GpuMs = NotAvailable,
                 ProcessCpuPct = NotAvailable,
                 MainThreadPct = NotAvailable,
                 RenderThreadPct = NotAvailable,

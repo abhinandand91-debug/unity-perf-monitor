@@ -24,6 +24,9 @@ namespace PerfMonitor.Overlay
             Current = latest;
             Current.Fps = Mathf.Lerp(previous.Fps, latest.Fps, blend);
             Current.FrameMs = Mathf.Lerp(previous.FrameMs, latest.FrameMs, blend);
+            Current.MainThreadMs = Smooth(previous.MainThreadMs, latest.MainThreadMs, blend);
+            Current.RenderThreadMs = Smooth(previous.RenderThreadMs, latest.RenderThreadMs, blend);
+            Current.GpuMs = Smooth(previous.GpuMs, latest.GpuMs, blend);
             Current.MainThreadPct = Smooth(previous.MainThreadPct, latest.MainThreadPct, blend);
             Current.RenderThreadPct = Smooth(previous.RenderThreadPct, latest.RenderThreadPct, blend);
             Current.GpuPct = Smooth(previous.GpuPct, latest.GpuPct, blend);

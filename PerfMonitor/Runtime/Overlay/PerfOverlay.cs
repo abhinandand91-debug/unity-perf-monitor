@@ -12,7 +12,7 @@ namespace PerfMonitor.Overlay
         const float StatsInterval = 0.5f;
         const float Margin = 8f;
         const float PanelWidth = 250f;
-        const float PanelHeight = 292f;
+        const float PanelHeight = 334f;
 
         static PerfOverlay _instance;
 
@@ -148,6 +148,8 @@ namespace PerfMonitor.Overlay
             }
             y += 30f;
 
+            DrawBudgetRows(left, ref y, width, shown);
+
             // Load bars
             y = _drawer.DrawBar(left, y, width, "CPU (process)", shown.ProcessCpuPct, "");
             y = _drawer.DrawBar(left, y, width, "Main thread", shown.MainThreadPct, "");
@@ -164,6 +166,29 @@ namespace PerfMonitor.Overlay
             y += 42f;
 
             DrawRecordRow(left, y, width);
+        }
+
+        // Verdict, target FPS button and how much of the frame budget each unit uses
+        void DrawBudgetRows(float left, ref float y, float width, in PerfSample shown)
+        {
+            BudgetReport report = BudgetAnalyzer.Analyze(shown);
+            _drawer.DrawVerdict(new Rect(left, y, width - 84f, 18f), report);
+
+            string targetText = FrameBudget.IsAuto ? $"Auto {FrameBudget.TargetFps:0}" : $"Target {FrameBudget.TargetFps:0}";
+            if (_drawer.Button(new Rect(left + width - 80f, y - 1f, 80f, 18f), targetText))
+            {
+                FrameBudget.CyclePreset();
+            }
+            y += 20f;
+
+            _drawer.Label(new Rect(left, y, width, 16f),
+                $"Budget {shown.BudgetMs:0.0}ms  Main {FormatBudget(report.MainBudgetPct)}  Rend {FormatBudget(report.RenderBudgetPct)}  GPU {FormatBudget(report.GpuBudgetPct)}");
+            y += 22f;
+        }
+
+        static string FormatBudget(float percent)
+        {
+            return percent < 0f ? "n/a" : $"{percent:0}%";
         }
 
         static string BuildCounterText(in PerfSample shown)

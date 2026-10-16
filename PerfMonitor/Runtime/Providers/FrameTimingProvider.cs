@@ -32,15 +32,18 @@ namespace PerfMonitor.Providers
 #if UNITY_2022_2_OR_NEWER
                 if (timing.cpuMainThreadFrameTime > 0)
                 {
+                    sample.MainThreadMs = (float)timing.cpuMainThreadFrameTime;
                     sample.MainThreadPct = PerfSample.ToPercent((float)timing.cpuMainThreadFrameTime, frameMs);
                 }
                 if (timing.cpuRenderThreadFrameTime > 0)
                 {
+                    sample.RenderThreadMs = (float)timing.cpuRenderThreadFrameTime;
                     sample.RenderThreadPct = PerfSample.ToPercent((float)timing.cpuRenderThreadFrameTime, frameMs);
                 }
 #endif
                 if (timing.gpuFrameTime > 0)
                 {
+                    sample.GpuMs = (float)timing.gpuFrameTime;
                     sample.GpuPct = PerfSample.ToPercent((float)timing.gpuFrameTime, frameMs);
                 }
             }
@@ -49,6 +52,7 @@ namespace PerfMonitor.Providers
             {
                 // Recorder value is in nanoseconds
                 float mainMs = _mainThreadRecorder.LastValue / 1000000f;
+                sample.MainThreadMs = mainMs;
                 sample.MainThreadPct = PerfSample.ToPercent(mainMs, frameMs);
             }
         }
