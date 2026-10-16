@@ -1,0 +1,8 @@
+{
+  "name": "PerfMonitor.Editor",
+  "rootNamespace": "PerfMonitor.Editor",
+  "references": ["PerfMonitor.Runtime"],
+  "includePlatforms": ["Editor"],
+  "excludePlatforms": [],
+  "autoReferenced": true
+}

@@ -1,0 +1,7 @@
+{
+  "name": "com.local.perfmonitor",
+  "version": "0.1.0",
+  "displayName": "Perf Monitor",
+  "description": "In-game performance overlay and recorder: FPS, CPU, GPU and memory load as percentages, with CSV export.",
+  "unity": "2021.3"
+}
