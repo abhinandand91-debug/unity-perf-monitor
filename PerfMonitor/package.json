@@ -1,0 +1,18 @@
+{
+  "name": "com.abhinandan.perfmonitor",
+  "version": "1.0.0",
+  "displayName": "Perf Monitor",
+  "description": "In-game performance overlay and recorder: FPS, CPU, GPU and memory load, and a frame budget verdict that names the bottleneck. Showcase edition.",
+  "unity": "2021.3",
+  "keywords": [
+    "performance",
+    "profiler",
+    "fps",
+    "overlay"
+  ],
+  "author": {
+    "name": "Abhinandan Dharmadhikari"
+  },
+  "documentationUrl": "https://github.com/abhinandand91-debug/unity-perf-monitor#readme",
+  "licensesUrl": "https://github.com/abhinandand91-debug/unity-perf-monitor/blob/main/LICENSE"
+}
