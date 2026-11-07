@@ -1,0 +1,9 @@
+{
+  "name": "PerfMonitor.Runtime",
+  "rootNamespace": "PerfMonitor",
+  "references": [],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "autoReferenced": true
+}
