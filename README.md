@@ -1,4 +1,20 @@
-# Unity Perf Monitor
+<!-- showcase-header -->
+<div align="center">
+
+<h1>Unity Perf Monitor</h1>
+
+<p><b>An in-game performance overlay that names the bottleneck and fails CI when a build gets slower.</b></p>
+
+<img src="https://img.shields.io/badge/Unity-package-000000?style=flat-square&logo=unity&logoColor=white" alt="Unity: package"> <img src="https://img.shields.io/badge/C%23-runtime-512BD4?style=flat-square" alt="C%23: runtime"> <img src="https://img.shields.io/badge/Frame%20Guru-showcase%20edition-0b7285?style=flat-square" alt="Frame Guru: showcase edition">
+
+<p><a href="https://abhinandand91-debug.github.io/">Portfolio</a></p>
+
+</div>
+
+---
+
+<!-- /showcase-header -->
+## About
 
 A small in-game performance overlay for Unity, in the spirit of GameBench. It shows FPS, CPU, GPU and memory load while the game runs, names what is holding the frame back, and can record a session to CSV.
 
@@ -15,12 +31,12 @@ Captured from the demo as a release macOS player on a MacBook Pro (M1 Pro), 1920
 - `PerfMonitor/` - the package (Unity 2021.3+ and Unity 6, no dependencies)
 - `PerfMonitorDemo/` - a Unity 6 demo project with a stress-test panel
 
-## Try the demo
+### Try the demo
 1. Open `PerfMonitorDemo` in Unity 6000.3 (or newer).
 2. Open `Assets/Scenes/Demo.unity` and press Play.
 3. Use the buttons on the right to load the CPU, GPU, memory and GC, and watch the overlay react.
 
-## Use it in your own project
+### Use it in your own project
 In Unity open **Window > Package Manager > + > Add package from git URL** and paste:
 
 ```
@@ -31,10 +47,10 @@ The overlay starts itself in the Editor and Development builds. Release builds: 
 
 Controls: **F1** show/hide, **F2** start/stop recording (or use the on-screen buttons). For GPU numbers turn on **Tools > Perf Monitor > Enable Frame Timing Stats** (builds do this automatically).
 
-## Frame budget verdict
+### Frame budget verdict
 The overlay compares the main thread, render thread and GPU against the frame budget of your target FPS (the **Target** button cycles Auto / 30 / 60 / 90 / 120) and names the bottleneck: `GPU bound`, `Main thread bound (CPU)`, `Render thread bound`, `Memory pressure`, `Over budget, waiting (vsync or stall)` or `Within budget`. The line under it shows each unit as a percent of the budget, which can go above 100%.
 
-## Full version
+### Full version
 The full Perf Monitor is kept private. On top of this edition it adds:
 
 - **Compare two builds:** an editor window and a CI command that compare two recordings and fail a build that got slower
@@ -44,7 +60,7 @@ The full Perf Monitor is kept private. On top of this edition it adds:
 
 For access or a demo, open an issue or contact me on [GitHub](https://github.com/abhinandand91-debug).
 
-## What is measured
+### What is measured
 | Metric | Source |
 |---|---|
 | CPU (process) | OS process CPU time / (wall time x cores) |
@@ -57,7 +73,7 @@ For access or a demo, open an issue or contact me on [GitHub](https://github.com
 
 A metric shows `n/a` when the platform does not provide it (for example GPU time on some devices, or process CPU on iOS and WebGL).
 
-## Code layout
+### Code layout
 ```
 PerfMonitor/Runtime
   Core/        PerfSample, IMetricProvider, MetricsCollector, FrameBudget, BudgetAnalyzer
@@ -68,10 +84,10 @@ PerfMonitor/Editor   menu items and build hook
 ```
 To add a metric, write a new `IMetricProvider` and add it to `MetricsCollector`.
 
-## License
+### License
 MIT
 
-## Limits
+### Limits
 It measures from inside the game. It cannot see other apps, true hardware GPU utilisation, thermals or power draw; use Xcode Instruments or Android Perfetto for those.
 
 GC allocation per frame comes from a profiler counter that Unity only fills in the Editor and Development builds, so it reads 0 in release builds.
